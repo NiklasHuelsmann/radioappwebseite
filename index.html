@@ -2,43 +2,74 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brian-Radio</title>
     <style>
-        body { font-family: sans-serif; background-color: #1a1a1a; color: #ffffff; text-align: center; }
-        .player-header { padding: 40px; background: #2a2a2a; }
-        audio { width: 90%; max-width: 500px; margin-top: 20px; }
-        #song-info { margin-top: 20px; color: #ffcc00; font-size: 18px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #1a1a1a; 
+            color: #ffffff; 
+            text-align: center; 
+            padding: 50px; 
+        }
+        .container { 
+            background: #2a2a2a; 
+            padding: 40px; 
+            border-radius: 15px; 
+            max-width: 500px; 
+            margin: auto; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 { margin-bottom: 20px; color: #00aaff; }
+        
+        /* Design für den Abspielen-Knopf */
+        #playButton { 
+            padding: 15px 40px; 
+            font-size: 20px; 
+            background-color: #00aaff; 
+            border: none; 
+            color: white; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        #playButton:hover { background-color: #0088cc; }
+        
+        #song-info { margin-top: 30px; color: #cccccc; font-size: 16px; }
     </style>
 </head>
 <body>
 
-    <div class="player-header">
+    <div class="container">
         <h1>Brian-Radio</h1>
-        <audio controls>
-            <!-- Ersetze hier brian-radio durch deinen exakten Sendernamen bei laut.fm -->
+        
+        <!-- Der unsichtbare Player -->
+        <audio id="radioPlayer">
             <source src="https://stream.laut.fm/brian-radio" type="audio/mpeg">
         </audio>
-        
-        <div id="song-info">Warte auf Verbindung...</div>
+
+        <!-- Der schicke Button -->
+        <button id="playButton">▶ Abspielen</button>
+
+        <!-- Hier werden später die Infos geladen -->
+        <div id="song-info">Warte auf Verbindung zum Stream...</div>
     </div>
 
-</body>
-</html>
-    <header>
-        <h1>Brian-Radio</h1>
-    </header>
+    <script>
+        const player = document.getElementById('radioPlayer');
+        const button = document.getElementById('playButton');
 
-    <div class="content">
-        <p>Willkommen beim Brian-Radio!</p>
-        
-        <div class="radio-player">
-            <iframe width="800" height="140" id="widget" name="widget" border="0" style="border:0px" allowtransparency="true" scrolling="no" src="//widget.laut.fm/widgets/player_for/brian-radio?player%5Bstations%5D=brian-radio&player%5Bcolor%5D%5Bcolor%5D=white&player%5Bshadow%5D=true&player%5Bdisplay%5D%5Bborder%5D%5Bradius%5D=10px&player%5Bcolor%5D%5Bbackground_to%5D=%23666666&player%5Bcolor%5D%5Bbackground_from%5D=%23333333&player%5Bborder%5D%5Bcolor%5D=%23cccccc&player%5Bborder%5D%5Bwidth%5D=0px&player%5Bbutton%5D%5Bcolor%5D%5Bbackground_to%5D=%23333333&player%5Bbutton%5D%5Bcolor%5D%5Bbackground_from%5D=%23111111&player%5Bbutton%5D%5Bborder%5D%5Bcolor%5D=%23333333&player%5Bbutton%5D%5Bborder%5D%5Bwidth%5D=2px">widget</iframe>
-        </div>
-
-        <footer style="margin-top: 40px; font-size: 12px; color: #777;">
-            <p>&copy; 2026 Brian-Radio</p>
-        </footer>
-    </div>
+        button.addEventListener('click', function() {
+            if (player.paused) {
+                player.play();
+                button.textContent = '⏸ Pause';
+            } else {
+                player.pause();
+                button.textContent = '▶ Abspielen';
+            }
+        });
+    </script>
 
 </body>
 </html>

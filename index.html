@@ -3,42 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brian-Radio</title>
+    <title>Brian-Radio – Dein Web-Radio</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #1a1a1a; 
+            background: linear-gradient(135deg, #121212, #1f1f1f); 
             color: #ffffff; 
             text-align: center; 
-            padding: 50px; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .container { 
-            background: #2a2a2a; 
-            padding: 40px; 
-            border-radius: 15px; 
-            max-width: 400px; 
-            margin: auto; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        .radio-card { 
+            background: rgba(30, 30, 30, 0.95); 
+            padding: 30px; 
+            border-radius: 20px; 
+            width: 100%;
+            max-width: 450px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        h1 { margin-bottom: 20px; color: #00aaff; }
         
-        /* Design für das Album-Cover */
-        #album-cover {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
+        /* Logo Bereich */
+        .station-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: none; /* Wird erst angezeigt, wenn ein Cover da ist */
+            border: 3px solid #00aaff;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+        }
+
+        h1 { 
+            margin: 5px 0 20px 0; 
+            color: #ffffff; 
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+        
+        /* Album Cover Bereich */
+        .cover-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px auto;
+        }
+
+        #album-cover {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background-color: #222;
         }
 
         /* Song-Informationen */
-        #song-info { 
-            margin-top: 20px; 
-            font-size: 16px; 
-            color: #dddddd;
-            min-height: 50px;
+        .info-box { 
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #00aaff;
         }
 
         #current-artist {
@@ -50,37 +83,53 @@
         }
 
         #current-title {
-            color: #ffffff;
-            font-size: 16px;
+            color: #dddddd;
+            font-size: 15px;
             display: block;
         }
         
-        /* Design für den Abspielen-Knopf */
+        /* Stylischer Abspielen-Knopf */
         #playButton { 
-            padding: 12px 30px; 
+            width: 100%;
+            padding: 15px; 
             font-size: 18px; 
-            background-color: #00aaff; 
+            background: linear-gradient(135deg, #00aaff, #0077bb); 
             border: none; 
             color: white; 
-            border-radius: 8px; 
+            border-radius: 10px; 
             cursor: pointer; 
             font-weight: bold;
-            transition: background 0.3s;
-            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 170, 255, 0.3);
         }
-        #playButton:hover { background-color: #0088cc; }
+        #playButton:hover { 
+            background: linear-gradient(135deg, #0088cc, #005599); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 170, 255, 0.5);
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777777;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="radio-card">
+        <!-- Dein Sender-Logo (Ersetze das Bild unten durch den Link zu deinem Logo) -->
+        <img src="https://via.placeholder.com/120" alt="Brian-Radio Logo" class="station-logo">
+        
         <h1>Brian-Radio</h1>
         
-        <!-- Album Cover Bild -->
-        <img id="album-cover" src="" alt="Album Cover">
+        <!-- Album Cover -->
+        <div class="cover-container">
+            <img id="album-cover" src="https://via.placeholder.com/200" alt="Album Cover">
+        </div>
 
         <!-- Song-Anzeige -->
-        <div id="song-info">
+        <div class="info-box">
             <span id="current-artist">Lade Sender...</span>
             <span id="current-title">Bitte warten</span>
         </div>
@@ -90,10 +139,12 @@
             <source src="https://stream.laut.fm/brian-radio" type="audio/mpeg">
         </audio>
 
-        <!-- Der schicke Button -->
-        <div>
-            <button id="playButton">▶ Abspielen</button>
-        </div>
+        <!-- Der Play/Pause Button -->
+        <button id="playButton">▶ Stream abspielen</button>
+
+        <footer>
+            &copy; 2026 Brian-Radio. Alle Rechte vorbehalten.
+        </footer>
     </div>
 
     <script>
@@ -104,10 +155,10 @@
         button.addEventListener('click', function() {
             if (player.paused) {
                 player.play();
-                button.textContent = '⏸ Pause';
+                button.textContent = '⏸ Stream pausieren';
             } else {
                 player.pause();
-                button.textContent = '▶ Abspielen';
+                button.textContent = '▶ Stream abspielen';
             }
         });
 
@@ -120,19 +171,18 @@
                     const titleSpan = document.getElementById('current-title');
                     const coverImg = document.getElementById('album-cover');
 
-                    if (data && data.artist && data.title) {
+                    if (data && data.artist && data.name) {
                         artistSpan.textContent = data.artist.name;
                         titleSpan.textContent = data.title;
 
-                        // Prüfen ob ein Album-Cover vorhanden ist
+                        // Cover-Logik von laut.fm
                         if (data.image && data.image !== "") {
                             coverImg.src = data.image;
-                            coverImg.style.display = "inline-block";
                         } else if (data.album && data.album.cover && data.album.cover !== "") {
                             coverImg.src = data.album.cover;
-                            coverImg.style.display = "inline-block";
                         } else {
-                            coverImg.style.display = "none";
+                            // Standardbild, wenn kein Cover da ist
+                            coverImg.src = "https://via.placeholder.com/200?text=Brian-Radio";
                         }
                     }
                 })
@@ -141,7 +191,7 @@
                 });
         }
 
-        // Sofort beim Laden ausführen und danach alle 10 Sekunden aktualisieren
+        // Direkt beim Laden und alle 10 Sekunden aktualisieren
         updateSongInfo();
         setInterval(updateSongInfo, 10000);
     </script>
